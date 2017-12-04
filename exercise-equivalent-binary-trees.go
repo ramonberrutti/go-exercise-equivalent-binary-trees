@@ -5,14 +5,19 @@ import (
 	"golang.org/x/tour/tree"
 )
 
+func walk(t *tree.Tree, ch chan int) {
+	if t != nil {
+		walk(t.Left, ch)
+		ch <- t.Value
+		walk(t.Right, ch)
+	}
+}
+
 // Walk walks the tree t sending all values
 // from the tree to the channel ch.
 func Walk(t *tree.Tree, ch chan int) {
-	if t != nil {
-		Walk(t.Left, ch)
-		ch <- t.Value
-		Walk(t.Right, ch)
-	}
+	walk(t, ch)
+	close(ch)
 }
 
 // Same determines whether the trees

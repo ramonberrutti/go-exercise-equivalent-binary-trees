@@ -23,7 +23,21 @@ func Walk(t *tree.Tree, ch chan int) {
 // Same determines whether the trees
 // t1 and t2 contain the same values.
 func Same(t1, t2 *tree.Tree) bool {
-	return true
+	c1 := make(chan int)
+	c2 := make(chan int)
+
+	go Walk(t1, c1)
+	go Walk(t2, c2)
+
+	for {
+		v1, ok1 := <-c1
+		v2, ok2 := <-c2
+		if v1 != v2 || ok1 != ok2 {
+			return false
+		} else if !ok1 {
+			return true
+		}
+	}
 }
 
 func main() {
@@ -32,4 +46,7 @@ func main() {
 	for i := range(c) {
 		fmt.Println(i)
 	}
+
+	fmt.Println(Same(tree.New(1), tree.New(1)))
+	fmt.Println(Same(tree.New(1), tree.New(2)))
 }

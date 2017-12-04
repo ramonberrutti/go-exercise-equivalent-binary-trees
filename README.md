@@ -1,3 +1,3 @@
 # go-exercise-equivalent-binary-trees
 
-Exercise: https://tour.golang.org/concurrency/8
+Exercise: https://tour.golang.org/concurrency/7
